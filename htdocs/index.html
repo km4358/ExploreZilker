@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<link href="img/acl-favicon.png" rel="icon" type="image/x-icon" />
+		<title>Explore Zilker!</title>
+	
+		<h1>Explore Zilker!</h1>
+		<div id="check">
+			<input type="checkbox" name="boundary" value="boundary"> Park Boundary</input>
+			<input type="checkbox" name="trails" value="trails"> Urban Trails</input>
+			<input type="checkbox" name="feedback" value="feedback"> Visitor Feedback</input>
+		</div>
+		<div id="buttons">
+			<input type="radio" name="filter" value="all" checked> Show All Points of Interest</input>
+			<input type="radio" name="filter" value="ent"> Entertainment</input>
+			<input type="radio" name="filter" value="exh"> Exhibitions</input>
+			<input type="radio" name="filter" value="fam"> Family Fun</input>
+			<input type="radio" name="filter" value="rec"> Recreation</input>
+			<input type="radio" name="filter" value="dog"> Off-Leash Dog Area</input>
+		</div>
+	
+		<div id="form">
+			<p>Click on the map to find the three closest park sites!</p>
+			<form action="">
+				<div id="reset">
+					<input type="button" onclick="showSites()" value="Turn All Sites On/Off">
+					<input type="button" onclick="startEdit()" value="Leave Feedback">
+					<input type="button" onclick="stopEdit()" value="Submit Feedback">
+				</div>
+			</form>
+		</div>
+	
+		<!--put your external stylesheet links here-->
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">        
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+        <link rel="stylesheet" href="js/easy-button.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link rel="stylesheet" href="css/style.css">
+	
+		<!--[if IE<9]>
+				<link rel="stylesheet" href="css/style.ie.css">
+			<![endif]-->
+	
+	</head>
+
+	<body>
+	
+	
+		<div id="map">
+			<div class="welcomeWin">
+				<div id="welcome">
+					<p>Welcome to Zilker Park! Austin's own urban greenspace!</p>
+					<strong>Click anywhere to start exploring.</strong>
+				</div>
+			</div>
+		</div>
+
+		<div id="dialog" title="Tell us what you think!">
+			<form>
+				<fieldset style="border: none;">
+					<ul style="list-style-type: none; padding-left: 0px">
+						<li>
+							<label for="username">Name</label>
+						</li>
+						<li>
+							<input type="text" name="username" id="username" placeholder="Enter your name" class="text ui-widget-content ui-corner-all">
+						</li>
+						<li>
+							<label for="email">Email</label>
+						</li>
+						<li>
+							<input type="text" name="email" id="email" placeholder="Enter your email" class="text ui-widget-content ui-corner-all">
+						</li>
+						<li>
+							<label for="feedbackEntry">Feedback</label>
+						</li>
+						<li>
+							<input type="text" name="feedbackEntry" id="feedbackEntry" placeholder=" " class="text ui-widget-content ui-corner-all">
+						</li>
+					</ul>
+					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+				</fieldset>
+			</form>
+		</div>
+	
+		<script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+        <script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+        <script src="js/easy-button.js"></script>
+		<script src="js/main.js"></script>
+	</body>
+</html>
