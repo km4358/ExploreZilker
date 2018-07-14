@@ -15,9 +15,7 @@ $(document).click(function () {
 
 //set global vars for sql queries and login
 var sqlBase = "SELECT * FROM park_boundary";
-
 var sqlTrail = "SELECT * FROM urban_trails";
-
 var sqlFeedback = "SELECT * FROM feedback";
 
 //set vars for park sites
@@ -36,14 +34,12 @@ var parkBoundary = null;
 var parkTrails = null;
 var parkSites = null;
 
-
 //set location var 
 var myLocation = null;
 var locationMarker = null;
 
 //set blank marker var
 var siteMarker = null;
-
 var feedbackPoints = null;
 
 //user location icon
@@ -52,6 +48,7 @@ var locateIcon = L.icon({
     iconSize: [50, 50]
 });
 
+//set styles for boundary and trails
 var boundaryStyle = {
     "color": "#dc42f4",
     "weight": 5,
@@ -65,10 +62,10 @@ var trailStyle = {
     
 }
 
-
+//turn on location control
 L.control.locate({ icon: 'fa fa-location-arrow' }).addTo(mymap);
 
-
+//create function to begin drawing edits
 function startEdit(){
     if(controlOnMap == true){
         mymap.removeControl(drawControl);
@@ -78,11 +75,13 @@ function startEdit(){
     controlOnMap = true;
 };
 
+//function to turn off draw control
 function stopEdit(){
     mymap.removeControl(drawControl);
     controlOnMap = false;
 };
 
+//add drawn items to map after feedback submitted
 mymap.on('draw:created', function(e) {
     var layer = e.layer;
     drawnItems.addLayer(layer);
@@ -90,6 +89,7 @@ mymap.on('draw:created', function(e) {
     dialog.dialog("open");
 });
 
+//turn on dialog box after drawing 
 var dialog = $("#dialog").dialog({
     autoOpen: false,
     height: 300,
@@ -118,7 +118,7 @@ var form = dialog.find("form").on("submit", function(event) {
 });
 
 
-
+//function to load park boundary from geojson
 function showBoundary() {
     if (mymap.hasLayer(parkBoundary)) {
         mymap.removeLayer(parkBoundary);
@@ -135,7 +135,7 @@ function showBoundary() {
     });
 };
 
-
+//load trails from geojson
 function showTrails() {
     if (mymap.hasLayer(parkTrails)) {
         mymap.removeLayer(parkTrails);
@@ -152,6 +152,7 @@ function showTrails() {
     });
 };
 
+//load park sites from geojson
 function showSites() {
     if (mymap.hasLayer(parkSites)||mymap.hasLayer(locationMarker)){
         mymap.removeLayer(parkSites);
@@ -175,6 +176,7 @@ function showSites() {
     });
 };
 
+//load feedback points from geojson
 function showFeedback() {
     if (mymap.hasLayer(feedbackPoints)) {
         mymap.removeLayer(feedbackPoints);
@@ -190,6 +192,7 @@ function showFeedback() {
     });
 };
 
+//filter entertainment sites
 function filterEnt() {
     if (mymap.hasLayer(parkSites)) {
         mymap.removeLayer(parkSites);
@@ -211,6 +214,7 @@ function filterEnt() {
     });
 };
 
+//filter exhibitions
 function filterExh() {
     if (mymap.hasLayer(parkSites)) {
         mymap.removeLayer(parkSites);
@@ -231,6 +235,7 @@ function filterExh() {
     });
 };
 
+//filter family sites
 function filterFam() {
     if (mymap.hasLayer(parkSites)) {
         mymap.removeLayer(parkSites);
@@ -251,6 +256,7 @@ function filterFam() {
     });
 };
 
+//filter recreation sites
 function filterRec() {
     if (mymap.hasLayer(parkSites)) {
         mymap.removeLayer(parkSites);
@@ -271,6 +277,7 @@ function filterRec() {
     });
 };
 
+//filter doggy areas
 function filterDog() {
     if (mymap.hasLayer(parkSites)) {
         mymap.removeLayer(parkSites);
@@ -291,8 +298,7 @@ function filterDog() {
     });
 };
 
-
-
+//create function for location based filtering
 function locationFound(e){
     myLocation = e.latlng;
     closestSite();
@@ -306,9 +312,7 @@ function locationError(e){
 
 mymap.on('click', locationFound);
 
-/*mymap.on('locationerror', locationError);*/
-
-
+//function utilizing location to filter nearest sites
 function closestSite(){
     var sqlClosest = "SELECT * FROM park_sites ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint("+myLocation.lng+","+myLocation.lat+"), 4326) LIMIT 3";
     
@@ -332,7 +336,6 @@ function closestSite(){
 
 };
 
-
 //event listeners
 //checkbox event listener for park boundary
 $('input[value=boundary').change(function () {
@@ -343,6 +346,7 @@ $('input[value=boundary').change(function () {
     };
 });
 
+//listener for trails
 $('input[value=trails').change(function () {
     if (this.checked) {
         showTrails();
@@ -351,6 +355,7 @@ $('input[value=trails').change(function () {
     };
 });
 
+//listener for feedback
 $('input[value=feedback').change(function () {
     if (this.checked) {
         showFeedback();
@@ -363,29 +368,23 @@ $('input[value=feedback').change(function () {
 $('input[value=ent]').click(function () {
     filterEnt();
 });
-
 $('input[value=exh]').click(function () {
     filterExh();
 });
-
 $('input[value=fam]').click(function () {
     filterFam();
 });
-
 $('input[value=rec]').click(function () {
     filterRec();
 });
-
 $('input[value=dog]').click(function () {
     filterDog();
 });
-
 $('input[value=all]').click(function () {
     showSites();
 });
 
 //add draw controls
-
 var drawControl = new L.Control.Draw({
     draw : {
       polygon : false,
@@ -410,6 +409,7 @@ var drawControl = new L.Control.Draw({
     dialog.dialog("open");
 });
 
+//create dialog box and submit actions
 var dialog = $("#dialog").dialog({
     autoOpen: false,
     height: 300,
@@ -437,35 +437,7 @@ var form = dialog.find("form").on("submit", function(event) {
     event.preventDefault();
 });
 
-/*function setData() {
-    var enteredUsername = username.value;
-    var enteredEmail = email.value;
-    var enteredFeedback = feedbackEntry.value;
-    drawnItems.eachLayer(function (layer) {
-        var sql = "INSERT INTO feedback1 (the_geom, feedback, latitude, longitude, name, email) VALUES (ST_SetSRID(ST_GeomFromGeoJSON(";
-        var a = layer.getLatLng();
-        var sql2 = "{'type':'Point','coordinates':[" + a.lng + "," + a.lat + "]}'),4326),'" + enteredUsername + "','" + enteredFeedback + "','" + enteredEmail + "')";
-        var pURL = sql + sql2;
-        submitToProxy(pURL);
-        var postUrl = "https://"+cartoUser+".carto.com/api/v2/sql?format=GeoJSON&q="+pURL+"&api_key=2dca57c475c40ff4de838da65aac9f083396c5cc";
-        console.log(postUrl);
-        console.log("Feature has been submitted to the Proxy");
-
-        /*$.post("https://" + cartoUser + ".carto.com/api/v2/sql?format=GeoJSON&q=" + pURL + "&api_key=2dca57c475c40ff4de838da65aac9f083396c5cc", {
-            cache: false,
-            timeStamp: new Date().getTime()
-        }, function (data) {
-            console.log(data)
-            refreshLayer();
-        });
-    });
-
-    mymap.removeLayer(drawnItems);
-    drawnItems = new L.FeatureGroup();
-    console.log("drawnItems has been cleared");
-    dialog.dialog("close");
-};*/
-
+//set parameters and credentials for direct posting to carto database
 function setData() {
     var enteredUsername = username.value;
     var enteredEmail = email.value;
@@ -488,29 +460,7 @@ function setData() {
     dialog.dialog("close");
 };
 
-
-/*var submitToProxy = function(q){
-    $.post("php/callProxy.php", {
-      qurl:q,
-      cache: false,
-      timeStamp: new Date().getTime()
-    }, function(data) {
-      console.log(data);
-      refreshLayer();
-    });
- };*/
-
-
-
-
-/*function refreshLayer() {
-    if (mymap.hasLayer(feedbackPoints)) {
-        mymap.removeLayer(feedbackPoints);
-    };
-    console.log(submitToProxy);
-    showFeedback();
-};*/
-//create map
+//create map and load all park sites
 $(document).ready(function () {
     showSites()
 });
